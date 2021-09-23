@@ -21,7 +21,7 @@ const SearchResults = props => {
       <tbody>
         {props.results &&
           props.results.map((item, index) => {
-            return <TableRow item={item} />;
+            return <TableRow key={index} item={item} />;
           })}
       </tbody>
     </table>
