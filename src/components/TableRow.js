@@ -4,7 +4,6 @@ moment().format();
 
 export const TableRow = props => {
   const [isActive, setActive] = useState(false);
-
   const select = () => {
     setActive(!isActive);
   };
@@ -17,7 +16,17 @@ export const TableRow = props => {
       className={`${isActive ? "table-active" : ""}`}
       onClick={select}
     >
-      <th scope="row">{props.item.id}</th>
+      <th scope="row" />
+      <td>
+        <button
+          onClick={() => {
+            props.clickHandler(props.item.id);
+          }}
+        >
+          Show Profile
+        </button>
+      </td>
+      <td>{props.item.id}</td>
       <td>{props.item.title}</td>
       <td>{props.item.firstName}</td>
       <td>{props.item.surname}</td>

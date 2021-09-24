@@ -16,9 +16,11 @@ const Bookings = () => {
     setBookings(
       bookings.filter(
         huesped =>
-          huesped.firstName === searchVal || huesped.surname === searchVal
+          huesped.firstName.toUpperCase() === searchVal.toUpperCase() ||
+          huesped.surname.toUpperCase() === searchVal.toUpperCase()
       )
     );
+    console.log(bookings);
   };
 
   const [bookings, setBookings] = useState([]);
@@ -34,8 +36,6 @@ const Bookings = () => {
     };
     getData();
   }, []);
-
-  console.log("bookings", bookings);
 
   return (
     <div className="App-content">
