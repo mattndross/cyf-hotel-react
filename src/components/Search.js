@@ -11,7 +11,7 @@ const Search = props => {
     event.preventDefault();
     console.info("submit");
     props.search(searchInput);
-    //setSearchInput(props.search);
+    setSearchInput("");
   };
   return (
     <div className="search">

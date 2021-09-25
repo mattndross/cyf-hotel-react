@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Search from "./Search.js";
 import SearchResults from "./SearchResults.js";
-//import FakeBookings from "../data/fakeBookings.json";
+import AddBooking from "./AddBooking.js";
 
 const Bookings = () => {
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const search = searchVal => {
     console.log("searchVal", searchVal);
 
-    console.log(
-      bookings.filter(
-        huesped =>
-          huesped.firstName === searchVal || huesped.surname === searchVal
-      )
-    );
     setBookings(
       bookings.filter(
         huesped =>
@@ -20,31 +17,43 @@ const Bookings = () => {
           huesped.surname.toUpperCase() === searchVal.toUpperCase()
       )
     );
-    console.log(bookings);
   };
-
-  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     const getData = () => {
-      fetch("https://cyf-react.glitch.me")
+      fetch(`https://cyf-react.glitch.me`)
         .then(response => response.json())
         .then(data => {
           setBookings(data);
-          console.log("data en api", data);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.log(error);
         });
     };
     getData();
   }, []);
 
-  return (
-    <div className="App-content">
-      <div className="container">
-        <Search search={search} />
-        <SearchResults results={bookings} />
+  const addNewBooking = newBooking => {
+    setBookings(...bookings, newBooking);
+    console.log("cuantos booking hay", bookings.length);
+  };
+
+  if (loading) {
+    return <h2>Loading data...</h2>;
+  } else if (bookings.error) {
+    return <h2>{bookings.error}</h2>;
+  } else {
+    return (
+      <div className="App-content">
+        <div className="container">
+          <AddBooking addNewBooking={addNewBooking} />
+          <Search search={search} />
+          <SearchResults results={bookings} />
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default Bookings;
